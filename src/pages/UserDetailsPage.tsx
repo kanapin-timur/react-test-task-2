@@ -1,0 +1,45 @@
+import { useParams } from 'react-router-dom';
+import { useGetUsersQuery } from '../services/usersApi';
+
+export default function DetailPage() {
+  const { id } = useParams();
+  const { data: users = [], isLoading, error } = useGetUsersQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+
+  const user = users.find((u) => u.id === Number(id));
+
+  if (!user) return <div>User not found</div>;
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">{user.name}</h1>
+
+      <div className="space-y-2">
+        <p>
+          <b>Email:</b> {user.email}
+        </p>
+        <p>
+          <b>Phone:</b> {user.phone}
+        </p>
+        <p>
+          <b>Website:</b> {user.website}
+        </p>
+      </div>
+
+      <div className="mt-4">
+        <h2 className="font-semibold">Company</h2>
+        <p>{user.company.name}</p>
+        <p className="text-sm text-gray-500">{user.company.catchPhrase}</p>
+      </div>
+
+      <div className="mt-4">
+        <h2 className="font-semibold">Address</h2>
+        <p>
+          {user.address.city}, {user.address.street}
+        </p>
+      </div>
+    </div>
+  );
+}
