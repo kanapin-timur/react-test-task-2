@@ -26,16 +26,16 @@ export default function DetailPage() {
 
       <h1 className="text-2xl font-bold mb-4">{user.name}</h1>
 
-      <div className="space-y-2">
-        <p>
+      <div className="flex flex-col gap-2">
+        <span>
           <b>Email:</b> {user.email}
-        </p>
-        <p>
+        </span>
+        <span>
           <b>Phone:</b> {user.phone}
-        </p>
-        <p>
+        </span>
+        <span>
           <b>Website:</b> {user.website}
-        </p>
+        </span>
       </div>
 
       <div className="mt-4">

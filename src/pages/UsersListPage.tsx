@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import Loader from '../ui/Loader';
 
 export default function UsersListPage() {
-  const { data: users, error, isLoading } = useGetUsersQuery();
-  const [search, setSearch] = useState('');
-  const [company, setCompany] = useState('');
-  const [visible, setVisible] = useState(5);
+  const { data: users = [], error, isLoading } = useGetUsersQuery();
+  const [search, setSearch] = useState<string>('');
+  const [company, setCompany] = useState<string>('');
+  const [visible, setVisible] = useState<number>(5);
 
   const companies = useMemo(() => {
     return [...new Set(users?.map((u) => u.company.name))];
@@ -59,18 +59,19 @@ export default function UsersListPage() {
         </select>
       </div>
 
-      <div className="grid gap-4">
+      <ul className="grid gap-4">
         {filteredUsers?.slice(0, visible).map((user) => (
-          <Link
-            to={`/users/${user.id}`}
-            key={user.id}
-            className="border p-4 rounded block hover:shadow-md transition"
-          >
-            <h2 className="font-semibold">{user.name}</h2>
-            <p>{user.email}</p>
-          </Link>
+          <li key={user.id}>
+            <Link
+              to={`/users/${user.id}`}
+              className="border p-4 rounded block hover:shadow-md transition"
+            >
+              <h2 className="font-semibold">{user.name}</h2>
+              <p>{user.email}</p>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
 
       {(filteredUsers?.length ?? 0) > visible && (
         <div className="flex justify-center">
