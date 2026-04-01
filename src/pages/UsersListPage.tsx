@@ -25,13 +25,25 @@ export default function UsersListPage() {
     });
   }, [users, search, company]);
 
+  let errorMessage = 'Unknown error';
+
+  if (error) {
+    if ('status' in error) {
+      errorMessage = JSON.stringify(error.data) || `Error ${error.status}`;
+    } else {
+      errorMessage = error.message || 'Unknown error';
+    }
+  }
+
   if (isLoading)
     return (
       <div className="w-full h-full flex justify-center items-center">
         <Loader />
       </div>
     );
-  if (error) return <div>Error occurred while fetching users.</div>;
+  if (error) {
+    return <div className="text-red-500">{errorMessage}</div>;
+  }
   if (!users) return <div>No users found.</div>;
 
   return (

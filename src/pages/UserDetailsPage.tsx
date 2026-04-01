@@ -1,13 +1,19 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetUsersQuery } from '../services/usersApi';
 import { ArrowLeft } from 'lucide-react';
+import Loader from '../ui/Loader';
 
 export default function DetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: users = [], isLoading, error } = useGetUsersQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loader />
+      </div>
+    );
   if (error) return <div>Error</div>;
 
   const user = users.find((u) => u.id === Number(id));
